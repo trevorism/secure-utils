@@ -1,6 +1,5 @@
 package com.trevorism.secure;
 
-import javax.ws.rs.core.HttpHeaders;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,7 +9,7 @@ import java.io.InputStreamReader;
  */
 public class PasswordProvider {
 
-    public static final String AUTHORIZATION_HEADER = HttpHeaders.AUTHORIZATION;
+    public static final String AUTHORIZATION_HEADER = "Authorization";
     private final String password;
     private static final String SECURE_FILE_NAME = "secure.txt";
 
@@ -23,7 +22,7 @@ public class PasswordProvider {
     }
 
     private String findPassword(){
-        InputStream secure = SecureRequestFilter.class.getClassLoader().getResourceAsStream(SECURE_FILE_NAME);
+        InputStream secure = PasswordProvider.class.getClassLoader().getResourceAsStream(SECURE_FILE_NAME);
         if (secure == null) {
             return null;
         }
