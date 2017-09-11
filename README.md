@@ -2,7 +2,7 @@
  
 Add an `@Secure` annotation to controller methods.
 
-Add a `secure.txt` to the root classpath with the allowable password.
+Add a `secure.txt` to the root classpath with the password.
 
 Requests must use the `Authorization` header with a value which matches `secure.txt`
 
