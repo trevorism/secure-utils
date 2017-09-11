@@ -1,4 +1,4 @@
-package org.codehaus.jackson.jaxrs;
+package com.trevorism.secure;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@interface Secure {
+public @interface Secure {
 
 }

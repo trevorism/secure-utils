@@ -1,5 +1,8 @@
 package org.codehaus.jackson.jaxrs;
 
+import com.trevorism.secure.Secure;
+import com.trevorism.secure.SecureRequestFilter;
+
 import javax.ws.rs.container.DynamicFeature;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.FeatureContext;
