@@ -12,7 +12,7 @@ public class PasswordProviderTest {
     @Test
     public void testValues(){
         assertEquals("Authorization", PasswordProvider.AUTHORIZATION_HEADER);
-        assertEquals("test", PasswordProvider.PASSWORD);
+        assertEquals("test", new PasswordProvider().getPassword());
 
     }
 

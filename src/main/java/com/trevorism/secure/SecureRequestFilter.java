@@ -15,7 +15,7 @@ public class SecureRequestFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        String password = PasswordProvider.PASSWORD;
+        String password = new PasswordProvider().getPassword();
         List<String> list = requestContext.getHeaders().get(HttpHeaders.AUTHORIZATION);
         if (authorizationHeaderDoesNotMatchSecurePassword(list, password)) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());

@@ -1,6 +1,5 @@
 package com.trevorism.secure;
 
-import com.trevorism.secure.SecureRequestFilter;
 import org.codehaus.jackson.jaxrs.TestContainerRequestContext;
 import org.junit.Test;
 
