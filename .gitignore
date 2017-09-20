@@ -4,4 +4,4 @@ build/
 classes/
 *.iml
 out/
-secure.txt
+src/main/resources/secure.txt
