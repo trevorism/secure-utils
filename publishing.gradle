@@ -4,13 +4,13 @@ publishing {
             groupId "com.trevorism"
             artifactId project.name
             version "${version}-SNAPSHOT"
-            artifact jar
+            from components.java
         }
         release(MavenPublication) {
             groupId "com.trevorism"
             artifactId project.name
             version version
-            artifact jar
+            from components.java
         }
     }
     repositories {
