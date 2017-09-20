@@ -17,6 +17,9 @@ public class PasswordProvider {
         password = findPassword();
     }
 
+    /**
+     * @return Returns the secure password
+     */
     public String getPassword() {
         return password;
     }
