@@ -1,18 +1,28 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url uri("http://trevorism-build.eastus.cloudapp.azure.com/nexus/repository/maven-releases")
+        }
+    }
+    dependencies {
+        classpath 'com.trevorism:gradle-release-plugin:0.3.0'
+    }
+}
+
 plugins{
     id "java"
     id "jacoco"
-    id "maven-publish"
 }
+
+apply plugin: "com.trevorism.gradle.release"
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
-
 dependencies {
 	compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.27'
 	testCompile 'junit:junit:4.12'
 }
 
 check.dependsOn "jacocoTestReport"
-
-apply from: "publishing.gradle"
