@@ -25,4 +25,13 @@ dependencies {
 	testCompile 'junit:junit:4.12'
 }
 
+processResources{
+    doLast{
+        copy{
+            from "${System.getProperty("user.home")}/${project.name}/secure.txt"
+            into "build/resources/main"
+        }
+    }
+}
+
 check.dependsOn "jacocoTestReport"
