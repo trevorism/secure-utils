@@ -13,4 +13,6 @@
 * Requests must use the `Authorization` header with a value which matches `secure.txt`
 
 ## How to Build
-To get the tests to work, add `secure.txt` with value `'test'` to `src/test/resources`
+`gradle clean build`
+
+Note: to get the tests to work, add `secure.txt` with value `'test'` to src/test/resources
