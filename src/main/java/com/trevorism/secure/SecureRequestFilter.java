@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.security.Key;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author tbrooks
@@ -22,6 +23,7 @@ import java.util.List;
 public class SecureRequestFilter implements ContainerRequestFilter {
 
     private PasswordProvider passwordProvider = new PasswordProvider();
+    private static final Logger log = Logger.getLogger(SecureRequestFilter.class.getName());
 
     @Context
     ResourceInfo resourceInfo;
@@ -55,6 +57,7 @@ public class SecureRequestFilter implements ContainerRequestFilter {
     }
 
     private boolean isBearerTokenInvalid(String bearerToken) {
+        boolean invalid = true;
         try {
             Key decodedKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(passwordProvider.getSigningKey()));
             Jws<Claims> claims = Jwts.parserBuilder()
@@ -63,11 +66,14 @@ public class SecureRequestFilter implements ContainerRequestFilter {
                     .build()
                     .parseClaimsJws(bearerToken);
 
-            return areClaimsInvalid(claims);
-        } catch (Exception ignored) {
-            System.out.println(ignored);
+            invalid = areClaimsInvalid(claims);
+            if(!invalid){
+                log.info("Successfully validated bearer token from " + claims.getBody().getSubject());
+            }
+        } catch (Exception e) {
+            log.warning("Exception parsing bearer token " + e.getMessage());
         }
-        return true;
+        return invalid;
     }
 
     private boolean areClaimsInvalid(Jws<Claims> claims) {
