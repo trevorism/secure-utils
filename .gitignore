@@ -5,3 +5,4 @@ classes/
 *.iml
 out/
 src/main/resources/secure.txt
+src/main/resources/signing.txt

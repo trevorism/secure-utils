@@ -2,6 +2,8 @@ package com.trevorism.secure;
 
 import org.junit.Test;
 
+import javax.ws.rs.core.HttpHeaders;
+
 import static org.junit.Assert.*;
 
 /**
@@ -11,9 +13,9 @@ public class PasswordProviderTest {
 
     @Test
     public void testValues(){
-        assertEquals("Authorization", PasswordProvider.AUTHORIZATION_HEADER);
+        assertEquals("Authorization", HttpHeaders.AUTHORIZATION);
         assertEquals("test", new PasswordProvider().getPassword());
-
+        assertEquals("signingtest", new PasswordProvider().getSigningKey());
     }
 
 }

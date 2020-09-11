@@ -10,12 +10,21 @@ import java.util.*;
  * @author tbrooks
  */
 public class TestContainerRequestContext implements ContainerRequestContext {
-    private final MultivaluedMap<String, String> map;
+    protected final MultivaluedMap<String, String> map;
     private boolean aborted = false;
+
+    public TestContainerRequestContext(){
+        this.map = new MultivaluedHashMap<>();
+    }
 
     public TestContainerRequestContext(String password){
         this.map = new MultivaluedHashMap<>();
         map.add("Authorization",password);
+    }
+
+    @Override
+    public MultivaluedMap<String, String> getHeaders() {
+        return map;
     }
 
     @Override
@@ -66,11 +75,6 @@ public class TestContainerRequestContext implements ContainerRequestContext {
     @Override
     public void setMethod(String method) {
 
-    }
-
-    @Override
-    public MultivaluedMap<String, String> getHeaders() {
-        return map;
     }
 
     @Override

@@ -5,12 +5,12 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/trevorism/secure-utils)
 ![GitHub top language](https://img.shields.io/github/languages/top/trevorism/secure-utils)
  
- Latest Version: 1.0.2 
+Latest Version: 2.0.0 
  
 ## How to Use 
 * Add an `@Secure` annotation to controller methods.
-* Add a `secure.txt` to the root classpath with the password.
-* Requests must use the `Authorization` header with a value which matches `secure.txt`
+
+This library supports both legacy authentication and bearer token based authentication and authorization.
 
 ## How to Build
 `gradle clean build`

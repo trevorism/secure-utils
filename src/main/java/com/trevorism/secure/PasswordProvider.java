@@ -9,12 +9,15 @@ import java.io.InputStreamReader;
  */
 public class PasswordProvider {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
     private final String password;
+    private final String signingKey;
+
     private static final String SECURE_FILE_NAME = "secure.txt";
+    private static final String SIGNING_FILE_NAME = "signing.txt";
 
     public PasswordProvider(){
         password = findPassword();
+        signingKey = findSigningKey();
     }
 
     /**
@@ -23,9 +26,20 @@ public class PasswordProvider {
     public String getPassword() {
         return password;
     }
+    public String getSigningKey() {
+        return signingKey;
+    }
 
     private String findPassword(){
-        InputStream secure = PasswordProvider.class.getClassLoader().getResourceAsStream(SECURE_FILE_NAME);
+        return getFileContent(SECURE_FILE_NAME);
+    }
+
+    private String findSigningKey() {
+        return getFileContent(SIGNING_FILE_NAME);
+    }
+
+    private String getFileContent(String secureFileName) {
+        InputStream secure = PasswordProvider.class.getClassLoader().getResourceAsStream(secureFileName);
         if (secure == null) {
             return null;
         }
@@ -44,6 +58,7 @@ public class PasswordProvider {
             }
         }
     }
+
 
 
 }
