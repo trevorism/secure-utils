@@ -5,7 +5,7 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/trevorism/secure-utils)
 ![GitHub top language](https://img.shields.io/github/languages/top/trevorism/secure-utils)
  
-Latest Version: 2.0.1 
+Latest Version: 2.1.0 
  
 ## How to Use 
 * Add an `@Secure` annotation to controller methods.

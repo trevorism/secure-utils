@@ -8,13 +8,9 @@ public class RolesTest {
 
     @Test
     public void validate() {
-        assertTrue(Roles.validate(Roles.GLOBAL_ADMIN));
-        assertTrue(Roles.validate(Roles.TENANT_ADMIN));
-        assertTrue(Roles.validate(Roles.CREATE));
-        assertTrue(Roles.validate(Roles.READ));
-        assertTrue(Roles.validate(Roles.UPDATE));
-        assertTrue(Roles.validate(Roles.DELETE));
-        assertTrue(Roles.validate(Roles.EXECUTE));
+        assertTrue(Roles.validate(Roles.ADMIN));
+        assertTrue(Roles.validate(Roles.SYSTEM));
+        assertTrue(Roles.validate(Roles.USER));
 
         assertFalse(Roles.validate(""));
         assertFalse(Roles.validate("blah"));

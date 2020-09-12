@@ -93,6 +93,8 @@ public class SecureRequestFilter implements ContainerRequestFilter {
             return true;
         }
 
+        //TODO: Parse secrets.properties, get clientId, validate audience based on Secure
+
         return false;
     }
 
