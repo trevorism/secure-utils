@@ -11,5 +11,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Secure {
+
     String value() default "";
+
+    boolean authorizeAudience() default false;
 }

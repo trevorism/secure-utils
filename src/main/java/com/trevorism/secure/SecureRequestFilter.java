@@ -67,7 +67,7 @@ public class SecureRequestFilter implements ContainerRequestFilter {
                     .parseClaimsJws(bearerToken);
 
             invalid = areClaimsInvalid(claims);
-            if(!invalid){
+            if (!invalid) {
                 log.info("Successfully validated bearer token from " + claims.getBody().getSubject());
             }
         } catch (Exception e) {
@@ -77,31 +77,23 @@ public class SecureRequestFilter implements ContainerRequestFilter {
     }
 
     private boolean areClaimsInvalid(Jws<Claims> claims) {
-        String role = resourceInfo.getResourceMethod().getAnnotation(Secure.class).value();
+        Secure secure = resourceInfo.getResourceMethod().getAnnotation(Secure.class);
 
+        String role = secure.value();
         if (!claims.getBody().getIssuer().equals("https://trevorism.com")) {
             return true;
         }
 
-        if (Roles.validate(role) && claimsDoesNotHaveRole(claims, role)) {
+        String claimRole = claims.getBody().get("role", String.class);
+        if (role.equals(Roles.ADMIN)) {
+            return !claimRole.equals(Roles.ADMIN);
+        }
+
+        if (role.equals(Roles.SYSTEM) && claimRole.equals(Roles.USER)) {
             return true;
         }
 
         return false;
     }
-
-    private boolean claimsDoesNotHaveRole(Jws<Claims> claims, String role) {
-        String claimRole = claims.getBody().get("role", String.class);
-
-        if (!Roles.validate(claimRole)) {
-            return true;
-        }
-
-        if (claimRole.equals(Roles.GLOBAL_ADMIN) || claimRole.equals(Roles.TENANT_ADMIN))
-            return false;
-
-        return !claimRole.equals(role);
-    }
-
 
 }
