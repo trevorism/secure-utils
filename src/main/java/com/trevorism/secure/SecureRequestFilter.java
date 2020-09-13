@@ -2,9 +2,6 @@ package com.trevorism.secure;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -13,7 +10,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.security.Key;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,7 +18,6 @@ import java.util.logging.Logger;
  */
 public class SecureRequestFilter implements ContainerRequestFilter {
 
-    private PasswordProvider passwordProvider = new PasswordProvider();
     private static final Logger log = Logger.getLogger(SecureRequestFilter.class.getName());
 
     @Context
@@ -43,7 +38,7 @@ public class SecureRequestFilter implements ContainerRequestFilter {
 
         String authorizationHeader = list.get(0);
 
-        if (authorizationHeader.equals(passwordProvider.getPassword())) {
+        if (authorizationHeader.equals(PasswordProvider.getInstance().getPassword())) {
             return false;
         }
 
@@ -59,16 +54,10 @@ public class SecureRequestFilter implements ContainerRequestFilter {
     private boolean isBearerTokenInvalid(String bearerToken) {
         boolean invalid = true;
         try {
-            Key decodedKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(passwordProvider.getSigningKey()));
-            Jws<Claims> claims = Jwts.parserBuilder()
-                    .setAllowedClockSkewSeconds(120)
-                    .setSigningKey(decodedKey)
-                    .build()
-                    .parseClaimsJws(bearerToken);
-
-            invalid = areClaimsInvalid(claims);
+            ClaimProperties claimProperties = ClaimsProvider.getClaims(bearerToken);
+            invalid = areClaimsInvalid(claimProperties);
             if (!invalid) {
-                log.info("Successfully validated bearer token from " + claims.getBody().getSubject());
+                log.info("Successfully validated bearer token from " + claimProperties.getSubject());
             }
         } catch (Exception e) {
             log.warning("Exception parsing bearer token " + e.getMessage());
@@ -76,26 +65,27 @@ public class SecureRequestFilter implements ContainerRequestFilter {
         return invalid;
     }
 
-    private boolean areClaimsInvalid(Jws<Claims> claims) {
+    private boolean areClaimsInvalid(ClaimProperties claims) {
         Secure secure = resourceInfo.getResourceMethod().getAnnotation(Secure.class);
 
         String role = secure.value();
-        if (!claims.getBody().getIssuer().equals("https://trevorism.com")) {
+        if (!claims.getIssuer().equals("https://trevorism.com")) {
             return true;
         }
 
-        String claimRole = claims.getBody().get("role", String.class);
+        String claimRole = claims.getRole();
+        if(claimRole == null){
+            return true;
+        }
+
         if (role.equals(Roles.ADMIN)) {
             return !claimRole.equals(Roles.ADMIN);
         }
 
-        if (role.equals(Roles.SYSTEM) && claimRole.equals(Roles.USER)) {
-            return true;
-        }
-
         //TODO: Parse secrets.properties, get clientId, validate audience based on Secure
 
-        return false;
+        return role.equals(Roles.SYSTEM) && claimRole.equals(Roles.USER);
+
     }
 
 }

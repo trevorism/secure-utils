@@ -14,8 +14,8 @@ public class PasswordProviderTest {
     @Test
     public void testValues(){
         assertEquals("Authorization", HttpHeaders.AUTHORIZATION);
-        assertEquals("test", new PasswordProvider().getPassword());
-        assertEquals("signingtest", new PasswordProvider().getSigningKey());
+        assertEquals("test", PasswordProvider.getInstance().getPassword());
+        assertEquals("signingtest", PasswordProvider.getInstance().getSigningKey());
     }
 
 }

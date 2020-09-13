@@ -15,7 +15,16 @@ public class PasswordProvider {
     private static final String SECURE_FILE_NAME = "secure.txt";
     private static final String SIGNING_FILE_NAME = "signing.txt";
 
-    public PasswordProvider(){
+    private static PasswordProvider INSTANCE = null;
+
+    public static PasswordProvider getInstance() {
+        if(INSTANCE == null){
+            INSTANCE = new PasswordProvider();
+        }
+        return INSTANCE;
+    }
+
+    private PasswordProvider() {
         password = findPassword();
         signingKey = findSigningKey();
     }
@@ -26,11 +35,12 @@ public class PasswordProvider {
     public String getPassword() {
         return password;
     }
+
     public String getSigningKey() {
         return signingKey;
     }
 
-    private String findPassword(){
+    private String findPassword() {
         return getFileContent(SECURE_FILE_NAME);
     }
 
@@ -46,19 +56,16 @@ public class PasswordProvider {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(secure));
             return reader.readLine();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return null;
-        }
-        finally {
+        } finally {
             try {
                 secure.close();
-            }catch (Exception ignored){
+            } catch (Exception ignored) {
 
             }
         }
     }
-
 
 
 }

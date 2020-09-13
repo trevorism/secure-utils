@@ -5,12 +5,22 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/trevorism/secure-utils)
 ![GitHub top language](https://img.shields.io/github/languages/top/trevorism/secure-utils)
  
-Latest Version: 2.1.0 
+Latest Version: 3.0.0
  
 ## How to Use 
 * Add an `@Secure` annotation to controller methods.
 
+```
+@Secure // Legacy implementation: no authorization
+@Secure(Roles.USER) //Bearer token authorization for users 
+@Secure(Roles.ADMIN) //Bearer token authorization for admin users
+@Secure(Roles.SYSTEM) //Bearer token authorization for apps.
+
+```
+
 This library supports both legacy authentication and bearer token based authentication and authorization.
+
+Legacy authentication will be removed in version 4.
 
 ## How to Build
 `gradle clean build`
