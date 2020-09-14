@@ -30,7 +30,7 @@ public class ClaimsProvider {
         claimProperties.setAudience(claims.getAudience());
         claimProperties.setIssuer(claims.getIssuer());
         claimProperties.setRole(claims.get("role", String.class));
-        claimProperties.setRole(claims.get("type", String.class));
+        claimProperties.setRole(claims.get("entityType", String.class));
         return claimProperties;
     }
 }
