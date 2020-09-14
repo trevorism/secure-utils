@@ -1,8 +1,5 @@
 package com.trevorism.secure;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
@@ -68,14 +65,17 @@ public class SecureRequestFilter implements ContainerRequestFilter {
     private boolean areClaimsInvalid(ClaimProperties claims) {
         Secure secure = resourceInfo.getResourceMethod().getAnnotation(Secure.class);
 
-        String role = secure.value();
         if (!claims.getIssuer().equals("https://trevorism.com")) {
             return true;
         }
 
+        String role = secure.value();
         String claimRole = claims.getRole();
-        if(claimRole == null){
+        if (claimRole == null) {
             return true;
+        }
+        if (role.isEmpty()) {
+            return false;
         }
 
         if (role.equals(Roles.ADMIN)) {
