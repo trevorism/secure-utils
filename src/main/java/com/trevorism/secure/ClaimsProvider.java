@@ -10,7 +10,7 @@ import java.security.Key;
 
 public class ClaimsProvider {
 
-    static ClaimProperties getClaims(String bearerToken) {
+    public static ClaimProperties getClaims(String bearerToken) {
         Key decodedKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(PasswordProvider.getInstance().getSigningKey()));
         Jws<Claims> parsedClaims = Jwts.parserBuilder()
                 .setAllowedClockSkewSeconds(120)
