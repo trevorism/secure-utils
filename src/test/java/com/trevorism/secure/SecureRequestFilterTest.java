@@ -8,6 +8,8 @@ import javax.ws.rs.container.ResourceInfo;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author tbrooks
  */
@@ -48,7 +50,7 @@ public class SecureRequestFilterTest {
         };
         filter.filter(context);
 
-        assert context.isAborted();
+        assertTrue(context.isAborted());
     }
 
     public class SecuredMethod{

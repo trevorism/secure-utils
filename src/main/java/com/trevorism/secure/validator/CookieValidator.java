@@ -8,7 +8,7 @@ public class CookieValidator extends BearerTokenValidator implements Authorizati
     @Override
     public String getAuthorizationString(ContainerRequestContext requestContext) {
         Cookie cookie = requestContext.getCookies().get("session");
-        if(cookie == null){
+        if (cookie == null) {
             throw new AuthorizationStringInvalid("Unable to read cookie 'session'");
         }
         return cookie.getValue();

@@ -5,12 +5,14 @@ import com.trevorism.secure.*;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.HttpHeaders;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class BearerTokenValidator implements AuthorizationValidator {
 
     public static final String BEARER_PREFIX = "bearer ";
     private String reason;
     private ClaimProperties claimProperties = new ClaimProperties();
+    private static final Logger log = Logger.getLogger(BearerTokenValidator.class.getName());
 
     @Override
     public String getAuthorizationString(ContainerRequestContext requestContext) {
@@ -27,11 +29,11 @@ public class BearerTokenValidator implements AuthorizationValidator {
     }
 
     @Override
-    public boolean validate(String authorizationString, Secure secure) {
-        boolean invalid = true;
+    public boolean validate(ContainerRequestContext requestContext, Secure secure) {
         try {
-            claimProperties = ClaimsProvider.getClaims(authorizationString);
+            claimProperties = ClaimsProvider.getClaims(getAuthorizationString(requestContext));
             validateClaims(secure);
+            log.info("Validated authentication and authorization for " + claimProperties.getSubject());
             return true;
         } catch (Exception e) {
             reason = e.getMessage();
@@ -39,7 +41,7 @@ public class BearerTokenValidator implements AuthorizationValidator {
         return false;
     }
 
-    private void validateClaims(Secure secure) {
+    void validateClaims(Secure secure) {
         validateInputs(secure);
         validateIssuer();
         validateRole(secure);
@@ -54,7 +56,7 @@ public class BearerTokenValidator implements AuthorizationValidator {
         PropertiesProvider propertiesProvider = new PropertiesProvider();
         String thisAudience = propertiesProvider.getProperty("clientId");
 
-        if (!claimAudience.equals(thisAudience)) {
+        if (claimAudience == null || !claimAudience.equals(thisAudience)) {
             throw new AuthorizationNotValid("Audience in claim does not match clientId in secrets.properties");
         }
     }
@@ -100,8 +102,7 @@ public class BearerTokenValidator implements AuthorizationValidator {
         return reason;
     }
 
-    @Override
-    public ClaimProperties getClaimProperties() {
-        return claimProperties;
+    void setClaimProperties(ClaimProperties claimProperties) {
+        this.claimProperties = claimProperties;
     }
 }

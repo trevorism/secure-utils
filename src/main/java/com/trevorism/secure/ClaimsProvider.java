@@ -10,6 +10,10 @@ import java.security.Key;
 
 public class ClaimsProvider {
 
+    public static final String DB_ID = "dbId";
+    public static final String ROLE = "role";
+    public static final String ENTITY_TYPE = "entityType";
+
     public static ClaimProperties getClaims(String bearerToken) {
         Key decodedKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(PasswordProvider.getInstance().getSigningKey()));
         Jws<Claims> parsedClaims = Jwts.parserBuilder()
@@ -25,12 +29,12 @@ public class ClaimsProvider {
     private static ClaimProperties createClaimProperties(Jws<Claims> parsedClaims) {
         ClaimProperties claimProperties = new ClaimProperties();
         Claims claims = parsedClaims.getBody();
-        claimProperties.setId(claims.get("dbId", String.class));
+        claimProperties.setId(claims.get(DB_ID, String.class));
         claimProperties.setSubject(claims.getSubject());
         claimProperties.setAudience(claims.getAudience());
         claimProperties.setIssuer(claims.getIssuer());
-        claimProperties.setRole(claims.get("role", String.class));
-        claimProperties.setType(claims.get("entityType", String.class));
+        claimProperties.setRole(claims.get(ROLE, String.class));
+        claimProperties.setType(claims.get(ENTITY_TYPE, String.class));
         return claimProperties;
     }
 }

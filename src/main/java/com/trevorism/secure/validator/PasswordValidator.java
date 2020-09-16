@@ -1,6 +1,5 @@
 package com.trevorism.secure.validator;
 
-import com.trevorism.secure.ClaimProperties;
 import com.trevorism.secure.PasswordProvider;
 import com.trevorism.secure.Secure;
 
@@ -22,8 +21,9 @@ public class PasswordValidator implements AuthorizationValidator {
     }
 
     @Override
-    public boolean validate(String authorizationString, Secure secure) {
+    public boolean validate(ContainerRequestContext requestContext, Secure secure) {
         try {
+            String authorizationString = getAuthorizationString(requestContext);
             if (authorizationString.equals(PasswordProvider.getInstance().getPassword())) {
                 return true;
             }
@@ -39,8 +39,4 @@ public class PasswordValidator implements AuthorizationValidator {
         return reason;
     }
 
-    @Override
-    public ClaimProperties getClaimProperties() {
-        return new ClaimProperties();
-    }
 }
