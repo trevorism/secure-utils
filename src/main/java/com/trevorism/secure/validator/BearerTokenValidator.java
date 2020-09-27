@@ -44,7 +44,7 @@ public class BearerTokenValidator implements AuthorizationValidator {
     void validateClaims(Secure secure) {
         validateInputs(secure);
         validateIssuer();
-        validateRole(secure);
+        validateRole(secure, claimProperties.getRole());
 
         if (secure.authorizeAudience()) {
             validateAudience();
@@ -61,9 +61,8 @@ public class BearerTokenValidator implements AuthorizationValidator {
         }
     }
 
-    private void validateRole(Secure secure) {
+    public static void validateRole(Secure secure, String claimRole) {
         String role = secure.value();
-        String claimRole = claimProperties.getRole();
         if (claimRole == null) {
             throw new AuthorizationNotValid("Unable to parse claim role");
         }

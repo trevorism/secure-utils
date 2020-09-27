@@ -7,6 +7,10 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.HttpHeaders;
 import java.util.List;
 
+/**
+ * Deprecated. Use the other Authorization Validators. Removing in version 4.0.0
+ */
+@Deprecated
 public class PasswordValidator implements AuthorizationValidator {
 
     private String reason;

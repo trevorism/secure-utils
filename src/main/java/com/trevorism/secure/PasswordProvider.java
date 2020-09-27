@@ -30,8 +30,9 @@ public class PasswordProvider {
     }
 
     /**
-     * @return Returns the secure password
+     * Deprecated. This is not a secure way to handle auth. Removing in version 4.0.0
      */
+    @Deprecated
     public String getPassword() {
         return password;
     }

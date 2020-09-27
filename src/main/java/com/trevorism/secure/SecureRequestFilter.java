@@ -1,9 +1,6 @@
 package com.trevorism.secure;
 
-import com.trevorism.secure.validator.AuthorizationValidator;
-import com.trevorism.secure.validator.BearerTokenValidator;
-import com.trevorism.secure.validator.CookieValidator;
-import com.trevorism.secure.validator.PasswordValidator;
+import com.trevorism.secure.validator.*;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -23,6 +20,7 @@ public class SecureRequestFilter implements ContainerRequestFilter {
     private final AuthorizationValidator passwordValidator = new PasswordValidator();
     private final AuthorizationValidator bearerTokenValidator = new BearerTokenValidator();
     private final AuthorizationValidator cookieValidator = new CookieValidator();
+    private final AuthorizationValidator localhostTokenValidator = new LocalhostTokenValidator();
 
     @Context
     ResourceInfo resourceInfo;
@@ -36,7 +34,8 @@ public class SecureRequestFilter implements ContainerRequestFilter {
 
         if (passwordValidator.validate(requestContext, secure) ||
                 bearerTokenValidator.validate(requestContext, secure) ||
-                cookieValidator.validate(requestContext, secure)) {
+                cookieValidator.validate(requestContext, secure) ||
+                localhostTokenValidator.validate(requestContext, secure)) {
             return;
         }
 
