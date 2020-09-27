@@ -1,6 +1,7 @@
 package com.trevorism.secure;
 
-import com.trevorism.secure.validator.*;
+import com.trevorism.secure.validator.AuthorizationValidator;
+import com.trevorism.secure.validator.Validators;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -17,11 +18,6 @@ public class SecureRequestFilter implements ContainerRequestFilter {
 
     private static final Logger log = Logger.getLogger(SecureRequestFilter.class.getName());
 
-    private final AuthorizationValidator passwordValidator = new PasswordValidator();
-    private final AuthorizationValidator bearerTokenValidator = new BearerTokenValidator();
-    private final AuthorizationValidator cookieValidator = new CookieValidator();
-    private final AuthorizationValidator localhostTokenValidator = new LocalhostTokenValidator();
-
     @Context
     ResourceInfo resourceInfo;
 
@@ -32,18 +28,16 @@ public class SecureRequestFilter implements ContainerRequestFilter {
             secure = resourceInfo.getResourceMethod().getAnnotation(Secure.class);
         }
 
-        if (passwordValidator.validate(requestContext, secure) ||
-                bearerTokenValidator.validate(requestContext, secure) ||
-                cookieValidator.validate(requestContext, secure) ||
-                localhostTokenValidator.validate(requestContext, secure)) {
-            return;
+        for (AuthorizationValidator validator : Validators.allValidators) {
+            boolean result = validator.validate(requestContext, secure);
+            if (!result) {
+                log.finer(validator.getValidationErrorReason());
+            } else {
+                return;
+            }
         }
 
-        log.fine("Authentication for secure endpoint failed");
-        log.finer(passwordValidator.getValidationErrorReason());
-        log.finer(bearerTokenValidator.getValidationErrorReason());
-        log.finer(cookieValidator.getValidationErrorReason());
-
+        log.fine("Authentication for secure endpoint failed. All validators show the request did not meet the authentication and authorization requirement.");
         requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
     }
 

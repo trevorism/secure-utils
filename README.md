@@ -4,6 +4,8 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/trevorism/secure-utils)
 ![GitHub language count](https://img.shields.io/github/languages/count/trevorism/secure-utils)
 ![GitHub top language](https://img.shields.io/github/languages/top/trevorism/secure-utils)
+
+Secure Utils is the security jar for https://trevorism.com
  
 Latest Version: 3.3.0
 
@@ -26,6 +28,9 @@ The filter will return a 401 if every validator determines the request is invali
 @Secure(Roles.SYSTEM) //Bearer token authorization for apps.
 ```
 
+Validators are customizable, but the default should be fine for most cases. Use `Validators.addValidator(myValidator)` to add an additional way
+to authenticate and authorize. 
+
 This library supports both legacy (insecure) authentication and bearer token based authentication and authorization.
 
 Legacy authentication will be removed in version 4.
@@ -44,3 +49,6 @@ localRole=<role>
 `gradle clean build`
 
 Note: to get the tests to work, add `secure.txt` with value `'test'` to src/test/resources
+
+## How to release
+`gradle publishRelease`
