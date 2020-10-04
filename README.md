@@ -7,7 +7,7 @@
 
 Secure Utils is the security jar for https://trevorism.com
  
-Latest Version: 3.3.0
+Latest Version: 3.3.1
 
 ## Motivation
 
