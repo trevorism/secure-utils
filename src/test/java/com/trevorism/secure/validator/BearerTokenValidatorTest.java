@@ -18,8 +18,8 @@ public class BearerTokenValidatorTest {
         bearerTokenValidator.setClaimProperties(claimProperties);
 
         try {
-            bearerTokenValidator.validateClaims(createSecureInstance("", false));
-            bearerTokenValidator.validateClaims(createSecureInstance(Roles.USER, false));
+            bearerTokenValidator.validateClaims(createSecureInstance("", false, false));
+            bearerTokenValidator.validateClaims(createSecureInstance(Roles.USER, false, false));
             assertTrue(true);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -33,7 +33,7 @@ public class BearerTokenValidatorTest {
         bearerTokenValidator.setClaimProperties(claimProperties);
 
         try {
-            bearerTokenValidator.validateClaims(createSecureInstance(Roles.ADMIN, false));
+            bearerTokenValidator.validateClaims(createSecureInstance(Roles.ADMIN, false, false));
             assertTrue(true);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -47,7 +47,7 @@ public class BearerTokenValidatorTest {
         bearerTokenValidator.setClaimProperties(claimProperties);
 
         try {
-            bearerTokenValidator.validateClaims(createSecureInstance(Roles.ADMIN, false));
+            bearerTokenValidator.validateClaims(createSecureInstance(Roles.ADMIN, false, false));
             fail();
         } catch (Exception e) {
             assertEquals("Insufficient access", e.getMessage());
@@ -61,7 +61,7 @@ public class BearerTokenValidatorTest {
         bearerTokenValidator.setClaimProperties(claimProperties);
 
         try {
-            bearerTokenValidator.validateClaims(createSecureInstance(Roles.SYSTEM, false));
+            bearerTokenValidator.validateClaims(createSecureInstance(Roles.SYSTEM, false, false));
             fail();
         } catch (Exception e) {
             assertEquals("Insufficient access", e.getMessage());
@@ -75,10 +75,38 @@ public class BearerTokenValidatorTest {
         bearerTokenValidator.setClaimProperties(claimProperties);
 
         try {
-            bearerTokenValidator.validateClaims(createSecureInstance(Roles.USER, true));
+            bearerTokenValidator.validateClaims(createSecureInstance(Roles.USER, true, false));
             fail();
         } catch (Exception e) {
             assertEquals("Audience in claim does not match clientId in secrets.properties", e.getMessage());
+        }
+    }
+
+    @Test
+    public void validateSecureAtSystemLevelWithAllowInternal() {
+        BearerTokenValidator bearerTokenValidator = new BearerTokenValidator();
+        ClaimProperties claimProperties = createUserClaimWithRole(Roles.INTERNAL);
+        bearerTokenValidator.setClaimProperties(claimProperties);
+
+        try {
+            bearerTokenValidator.validateClaims(createSecureInstance(Roles.SYSTEM, false, true));
+            assertTrue(true);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void validateSecureAtSystemLevelWithoutAllowInternalFails() {
+        BearerTokenValidator bearerTokenValidator = new BearerTokenValidator();
+        ClaimProperties claimProperties = createUserClaimWithRole(Roles.INTERNAL);
+        bearerTokenValidator.setClaimProperties(claimProperties);
+
+        try {
+            bearerTokenValidator.validateClaims(createSecureInstance(Roles.SYSTEM, false, false));
+            fail();
+        } catch (Exception e) {
+            assertEquals("Insufficient access", e.getMessage());
         }
     }
 
@@ -92,7 +120,7 @@ public class BearerTokenValidatorTest {
         return claimProperties;
     }
 
-    private Secure createSecureInstance(String role, boolean authorizeAudience) {
+    private Secure createSecureInstance(String role, boolean authorizeAudience, boolean allowInternal) {
         return new Secure() {
 
             @Override
@@ -108,6 +136,11 @@ public class BearerTokenValidatorTest {
             @Override
             public boolean authorizeAudience() {
                 return authorizeAudience;
+            }
+
+            @Override
+            public boolean allowInternal() {
+                return allowInternal;
             }
         };
     }

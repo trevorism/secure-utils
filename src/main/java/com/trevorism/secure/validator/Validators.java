@@ -1,6 +1,6 @@
 package com.trevorism.secure.validator;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Validators {
@@ -10,13 +10,20 @@ public class Validators {
     public static final AuthorizationValidator cookieValidator = new CookieValidator();
     public static final AuthorizationValidator localhostTokenValidator = new LocalhostTokenValidator();
 
-    public static List<AuthorizationValidator> allValidators = Arrays.asList(passwordValidator, bearerTokenValidator, cookieValidator, localhostTokenValidator);
+    public static List<AuthorizationValidator> allValidators = new ArrayList<>();
 
-    public static void removeValidator(AuthorizationValidator authorizationValidator){
+    static {
+        addValidator(passwordValidator);
+        addValidator(bearerTokenValidator);
+        addValidator(cookieValidator);
+        addValidator(localhostTokenValidator);
+    }
+
+    public static void removeValidator(AuthorizationValidator authorizationValidator) {
         allValidators.remove(authorizationValidator);
     }
 
-    public static void addValidator(AuthorizationValidator authorizationValidator){
+    public static void addValidator(AuthorizationValidator authorizationValidator) {
         allValidators.add(authorizationValidator);
     }
 

@@ -15,4 +15,5 @@ public @interface Secure {
     String value() default "";
 
     boolean authorizeAudience() default false;
+    boolean allowInternal() default false;
 }

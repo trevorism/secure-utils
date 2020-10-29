@@ -20,12 +20,13 @@ apply plugin: "com.trevorism.gradle.release"
 repositories {
     mavenCentral()
 }
+
 dependencies {
     api 'io.jsonwebtoken:jjwt-api:0.11.2'
-    implementation 'org.glassfish.jersey.containers:jersey-container-servlet:2.31'
+    implementation 'org.glassfish.jersey.containers:jersey-container-servlet:2.32'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-gson:0.11.2'
-    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.13.1'
 }
 
 processResources{

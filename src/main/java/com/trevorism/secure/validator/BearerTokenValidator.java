@@ -69,6 +69,9 @@ public class BearerTokenValidator implements AuthorizationValidator {
         if (role.isEmpty()) {
             return;
         }
+        if (claimRole.equals(Roles.INTERNAL) && !secure.allowInternal()){
+            throw new AuthorizationNotValid("Insufficient access");
+        }
         if (role.equals(Roles.ADMIN)) {
             if (!claimRole.equals(Roles.ADMIN)) {
                 throw new AuthorizationNotValid("Insufficient access");
@@ -78,6 +81,7 @@ public class BearerTokenValidator implements AuthorizationValidator {
             if (claimRole.equals(Roles.USER)) {
                 throw new AuthorizationNotValid("Insufficient access");
             }
+
         }
     }
 
