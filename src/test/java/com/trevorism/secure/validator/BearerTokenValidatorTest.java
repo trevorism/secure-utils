@@ -97,13 +97,13 @@ public class BearerTokenValidatorTest {
     }
 
     @Test
-    public void validateSecureAtSystemLevelWithoutAllowInternalFails() {
+    public void validateSecureAtUserLevelWithoutAllowInternalFails() {
         BearerTokenValidator bearerTokenValidator = new BearerTokenValidator();
         ClaimProperties claimProperties = createUserClaimWithRole(Roles.INTERNAL);
         bearerTokenValidator.setClaimProperties(claimProperties);
 
         try {
-            bearerTokenValidator.validateClaims(createSecureInstance(Roles.SYSTEM, false, false));
+            bearerTokenValidator.validateClaims(createSecureInstance(Roles.USER, false, false));
             fail();
         } catch (Exception e) {
             assertEquals("Insufficient access", e.getMessage());
