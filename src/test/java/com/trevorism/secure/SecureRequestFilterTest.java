@@ -21,7 +21,7 @@ public class SecureRequestFilterTest {
         SecureRequestFilter filter = new SecureRequestFilter();
         filter.filter(context);
 
-        assert !context.isAborted();
+        assertTrue(!context.isAborted());
     }
 
     @Test
@@ -30,7 +30,7 @@ public class SecureRequestFilterTest {
         SecureRequestFilter filter = new SecureRequestFilter();
         filter.filter(context);
 
-        assert context.isAborted();
+        assertTrue(context.isAborted());
     }
 
     @Test

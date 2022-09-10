@@ -14,6 +14,8 @@ public @interface Secure {
 
     String value() default "";
 
+    /** When true, a token must be generated specifically for this app, by making the audience match this app's clientId **/
     boolean authorizeAudience() default false;
+    /** When true, long-lived tokens internal to trevorism are authorized to call the endpoint */
     boolean allowInternal() default false;
 }
