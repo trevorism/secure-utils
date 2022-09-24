@@ -14,16 +14,15 @@ public class ClaimsProvider {
     public static final String ROLE = "role";
     public static final String ENTITY_TYPE = "entityType";
 
-    public static ClaimProperties getClaims(String bearerToken) {
-        Key decodedKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(PasswordProvider.getInstance().getSigningKey()));
+    public static ClaimProperties getClaims(String bearerToken, String signingKey) {
+        Key decodedKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(signingKey));
         Jws<Claims> parsedClaims = Jwts.parserBuilder()
                 .setAllowedClockSkewSeconds(120)
                 .setSigningKey(decodedKey)
                 .build()
                 .parseClaimsJws(bearerToken);
 
-        ClaimProperties claimProperties = createClaimProperties(parsedClaims);
-        return claimProperties;
+        return createClaimProperties(parsedClaims);
     }
 
     private static ClaimProperties createClaimProperties(Jws<Claims> parsedClaims) {

@@ -9,6 +9,6 @@ public class ValidatorsTest {
     @Test
     public void removeValidator() {
         Validators.removeValidator(Validators.localhostTokenValidator);
-        assertEquals(3, Validators.allValidators.size());
+        assertEquals(2, Validators.allValidators.size());
     }
 }

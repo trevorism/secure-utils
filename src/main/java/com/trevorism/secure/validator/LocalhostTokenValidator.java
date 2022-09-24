@@ -1,5 +1,6 @@
 package com.trevorism.secure.validator;
 
+import com.trevorism.secure.ClasspathBasedPropertiesProvider;
 import com.trevorism.secure.PropertiesProvider;
 import com.trevorism.secure.Secure;
 
@@ -30,7 +31,7 @@ public class LocalhostTokenValidator implements AuthorizationValidator {
             if(!requestContext.getUriInfo().getBaseUri().getHost().equals("localhost") || secure == null){
                 return false;
             }
-            PropertiesProvider propertiesProvider = new PropertiesProvider();
+            PropertiesProvider propertiesProvider = new ClasspathBasedPropertiesProvider();
             String role = propertiesProvider.getProperty("localRole");
 
             BearerTokenValidator.validateRole(secure, role);

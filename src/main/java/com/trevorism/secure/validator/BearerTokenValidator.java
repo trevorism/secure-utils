@@ -10,9 +10,20 @@ import java.util.logging.Logger;
 public class BearerTokenValidator implements AuthorizationValidator {
 
     public static final String BEARER_PREFIX = "bearer ";
+    private static final Logger log = Logger.getLogger(BearerTokenValidator.class.getName());
+
+    private final PropertiesProvider propertiesProvider;
+
     private String reason;
     private ClaimProperties claimProperties = new ClaimProperties();
-    private static final Logger log = Logger.getLogger(BearerTokenValidator.class.getName());
+
+    public BearerTokenValidator() {
+        this(new ClasspathBasedPropertiesProvider());
+    }
+
+    public BearerTokenValidator(PropertiesProvider propertiesProvider) {
+        this.propertiesProvider = propertiesProvider;
+    }
 
     @Override
     public String getAuthorizationString(ContainerRequestContext requestContext) {
@@ -31,7 +42,7 @@ public class BearerTokenValidator implements AuthorizationValidator {
     @Override
     public boolean validate(ContainerRequestContext requestContext, Secure secure) {
         try {
-            claimProperties = ClaimsProvider.getClaims(getAuthorizationString(requestContext));
+            claimProperties = ClaimsProvider.getClaims(getAuthorizationString(requestContext), propertiesProvider.getProperty("signingKey"));
             validateClaims(secure);
             log.info("Validated authentication and authorization for " + claimProperties.getSubject());
             return true;
@@ -53,7 +64,6 @@ public class BearerTokenValidator implements AuthorizationValidator {
 
     private void validateAudience() {
         String claimAudience = claimProperties.getAudience();
-        PropertiesProvider propertiesProvider = new PropertiesProvider();
         String thisAudience = propertiesProvider.getProperty("clientId");
 
         if (claimAudience == null || !claimAudience.equals(thisAudience)) {
@@ -69,7 +79,7 @@ public class BearerTokenValidator implements AuthorizationValidator {
         if (role.isEmpty()) {
             return;
         }
-        if (claimRole.equals(Roles.INTERNAL) && !secure.allowInternal()){
+        if (claimRole.equals(Roles.INTERNAL) && !secure.allowInternal()) {
             throw new AuthorizationNotValid("Insufficient access");
         }
         if (role.equals(Roles.ADMIN)) {

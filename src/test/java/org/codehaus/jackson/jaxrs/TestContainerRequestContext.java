@@ -13,13 +13,13 @@ public class TestContainerRequestContext implements ContainerRequestContext {
     protected final MultivaluedMap<String, String> map;
     private boolean aborted = false;
 
-    public TestContainerRequestContext(){
+    public TestContainerRequestContext() {
         this.map = new MultivaluedHashMap<>();
     }
 
-    public TestContainerRequestContext(String password){
+    public TestContainerRequestContext(String password) {
         this.map = new MultivaluedHashMap<>();
-        map.add("Authorization",password);
+        map.add("Authorization", password);
     }
 
     @Override

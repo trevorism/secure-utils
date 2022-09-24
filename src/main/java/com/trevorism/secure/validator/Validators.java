@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Validators {
 
-    public static final AuthorizationValidator passwordValidator = new PasswordValidator();
     public static final AuthorizationValidator bearerTokenValidator = new BearerTokenValidator();
     public static final AuthorizationValidator cookieValidator = new CookieValidator();
     public static final AuthorizationValidator localhostTokenValidator = new LocalhostTokenValidator();
@@ -13,7 +12,6 @@ public class Validators {
     public static List<AuthorizationValidator> allValidators = new ArrayList<>();
 
     static {
-        addValidator(passwordValidator);
         addValidator(bearerTokenValidator);
         addValidator(cookieValidator);
         addValidator(localhostTokenValidator);
