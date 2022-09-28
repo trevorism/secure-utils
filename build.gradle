@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        credsBlock = {
+        creds = {
             username = findProperty("github.user") ?: System.getenv("GITHUB_ACTOR")
             password = findProperty("github.token") ?: System.getenv("GITHUB_TOKEN")
         }
@@ -9,7 +9,7 @@ buildscript {
         mavenCentral()
         maven {
             url uri("https://maven.pkg.github.com/trevorism/gradle-release-plugin")
-            credentials credsBlock
+            credentials creds
         }
     }
     dependencies {
