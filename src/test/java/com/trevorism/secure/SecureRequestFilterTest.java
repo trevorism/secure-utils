@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import static com.trevorism.secure.validator.BearerTokenValidator.BEARER_PREFIX;
 import static org.junit.Assert.assertTrue;
 
 /**
