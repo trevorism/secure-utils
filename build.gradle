@@ -30,7 +30,6 @@ repositories {
 
 dependencies {
     api 'io.jsonwebtoken:jjwt-api:0.11.5'
-    implementation 'org.glassfish.jersey.containers:jersey-container-servlet:2.37'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-gson:0.11.5'
     testImplementation 'junit:junit:4.13.2'

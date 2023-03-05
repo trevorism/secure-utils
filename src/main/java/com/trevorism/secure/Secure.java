@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Secure {
 
-    String value() default "";
+    String value() default Roles.USER;
 
     /** When true, a token must be generated specifically for this app, by making the audience match this app's clientId **/
     boolean authorizeAudience() default false;

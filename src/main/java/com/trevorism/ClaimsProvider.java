@@ -1,4 +1,4 @@
-package com.trevorism.secure;
+package com.trevorism;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

@@ -1,10 +1,10 @@
-package com.trevorism.secure;
+package com.trevorism;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class PropertiesProviderTest {
+public class ClasspathPropertiesProviderTest {
 
     @Test
     public void getProperty() {

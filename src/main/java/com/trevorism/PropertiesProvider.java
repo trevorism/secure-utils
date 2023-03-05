@@ -1,4 +1,4 @@
-package com.trevorism.secure;
+package com.trevorism;
 
 public interface PropertiesProvider {
 
