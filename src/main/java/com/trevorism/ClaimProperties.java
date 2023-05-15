@@ -8,6 +8,7 @@ public class ClaimProperties {
     private String audience;
     private String role;
     private String type;
+    private String tenant;
 
     public String getId() {
         return id;
@@ -55,5 +56,13 @@ public class ClaimProperties {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(String tenant) {
+        this.tenant = tenant;
     }
 }

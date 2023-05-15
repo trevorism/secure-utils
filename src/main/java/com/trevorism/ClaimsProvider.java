@@ -13,6 +13,7 @@ public class ClaimsProvider {
     public static final String DB_ID = "dbId";
     public static final String ROLE = "role";
     public static final String ENTITY_TYPE = "entityType";
+    public static final String TENANT = "tenant";
 
     public static ClaimProperties getClaims(String bearerToken, String signingKey) {
         Key decodedKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(signingKey));
@@ -34,6 +35,7 @@ public class ClaimsProvider {
         claimProperties.setIssuer(claims.getIssuer());
         claimProperties.setRole(claims.get(ROLE, String.class));
         claimProperties.setType(claims.get(ENTITY_TYPE, String.class));
+        claimProperties.setTenant(claims.get(TENANT, String.class));
         return claimProperties;
     }
 }
