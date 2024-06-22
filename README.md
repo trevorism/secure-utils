@@ -15,7 +15,8 @@ Latest [Version](https://github.com/trevorism/secure-utils/releases/latest)
 @Secure(Roles.USER) //Bearer token authorization for users 
 @Secure(Roles.ADMIN) //Bearer token authorization for admin users
 @Secure(Roles.SYSTEM) //Bearer token authorization for apps.
-@Secure(value = Roles.USER, authorizeAudience = true, allowInternal = true, permissions = "crd") //Allows internal tokens made specifically for this audience. The to
+//Allows internal tokens made specifically for this audience. The token must have Create permissions.
+@Secure(value = Roles.USER, authorizeAudience = true, allowInternal = true, permissions = "C") 
 ```
 
 ## How to Build
