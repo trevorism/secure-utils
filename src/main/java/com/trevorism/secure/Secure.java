@@ -18,4 +18,6 @@ public @interface Secure {
     boolean authorizeAudience() default false;
     /** When true, long-lived tokens internal to trevorism are authorized to call the endpoint */
     boolean allowInternal() default false;
+
+    String permissions() default "";
 }

@@ -1,8 +1,9 @@
 package com.trevorism.secure;
 
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SecureTest {
 
@@ -10,8 +11,9 @@ public class SecureTest {
     public void testSecureHasDefault(){
         Secure secure = new SecuredMethod().getClass().getMethods()[0].getAnnotation(Secure.class);
         assertEquals(Roles.USER, secure.value());
-        assertEquals(false, secure.allowInternal());
-        assertEquals(false, secure.authorizeAudience());
+        assertFalse(secure.allowInternal());
+        assertFalse(secure.authorizeAudience());
+        assertTrue(secure.permissions().isEmpty());
     }
 
     public class SecuredMethod {

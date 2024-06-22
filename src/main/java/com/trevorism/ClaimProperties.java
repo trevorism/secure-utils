@@ -1,12 +1,18 @@
 package com.trevorism;
 
+import com.trevorism.secure.Secure;
+
+import java.util.HashSet;
+import java.util.Set;
+
 public class ClaimProperties {
 
     private String id;
     private String subject;
     private String issuer;
-    private String audience;
+    private Set<String> audience = new HashSet<>();
     private String role;
+    private String permissions;
     private String type;
     private String tenant;
 
@@ -34,11 +40,11 @@ public class ClaimProperties {
         this.issuer = issuer;
     }
 
-    public String getAudience() {
+    public Set<String>  getAudience() {
         return audience;
     }
 
-    public void setAudience(String audience) {
+    public void setAudience(Set<String>  audience) {
         this.audience = audience;
     }
 
@@ -64,5 +70,13 @@ public class ClaimProperties {
 
     public void setTenant(String tenant) {
         this.tenant = tenant;
+    }
+
+    public String getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(String permissions) {
+        this.permissions = permissions;
     }
 }
