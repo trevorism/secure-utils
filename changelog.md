@@ -1,3 +1,7 @@
+## 7.0.0
+
+Updated jjwt to latest version and migrate to java 25.
+
 ## 6.0.0
 
 Updated jjwt to latest version. Add permission support for (c)reate, (r)ead, (u)pdate, (d)elete, and (e)xecute.
